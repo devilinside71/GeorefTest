@@ -22,4 +22,6 @@ fun main(args: Array<String>) {
     println("Test 03  34°32'27.91\"N,69°18'25.33\"E >> SJKE1832 >> ${geoRef.dms2GEOREF(test03)}")
     println("Test 04  47°09'48.69\"N,17°58'11.73\"E >> PKCC58 9 >> ${geoRef.dms2GEOREF(test04)}")
 
+
+    print("JEPG2424 ${geoRef.georef2DEG("JEPG2424")}")
 }

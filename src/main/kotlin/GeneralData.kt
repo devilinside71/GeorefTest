@@ -46,6 +46,6 @@ class GeneralData {
         var patternDMS =
             Pattern.compile("^([0-9]+)°([0-9]{1,2})\'(([0-9]*[.])?[0-9]+)\"([NS]),([0-9]+)°([0-9]{1,2})\'(([0-9]*[.])?[0-9]+)\"([EW])$")
 
-
+        var patternGEOREF=Pattern.compile("^([ABCDEFGHJKLMNPQRSTUVWXYZ])([ABCDEFGHJKLM])([ABCDEFGHJKLMNPQ])([ABCDEFGHJKLMNPQ])([0-9]+)\$")
     }
 }

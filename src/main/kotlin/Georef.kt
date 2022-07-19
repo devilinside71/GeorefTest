@@ -6,15 +6,43 @@ class Georef {
 
     fun dms2GEOREF(coord: DMSData): String {
         println("getGeoref coord $coord")
-        return getLon15(coord.LonDeg, coord.LonHemisphere) +
-                getLat15(coord.LatDeg, coord.LatHemisphere) +
-                getLon1515(coord.LonDeg, coord.LonHemisphere) +
-                getLat1515(coord.LatDeg, coord.LatHemisphere) +
-                get151560(coord.LonMin, coord.LonSec, coord.LonHemisphere) +
-                get151560(coord.LatMin, coord.LatSec, coord.LatHemisphere)
+        return georefLon15(coord.LonDeg, coord.LonHemisphere) +
+                georefLat15(coord.LatDeg, coord.LatHemisphere) +
+                georefLon1515(coord.LonDeg, coord.LonHemisphere) +
+                georefLat1515(coord.LatDeg, coord.LatHemisphere) +
+                georef151560(coord.LonMin, coord.LonSec, coord.LonHemisphere) +
+                georef151560(coord.LatMin, coord.LatSec, coord.LatHemisphere)
     }
 
-    fun getLon15(lonDeg: Int, lonHem: String): String {
+    fun georef2DEG(coord: String): DEGData {
+        var retVal = DEGData(0.0, 0.0)
+        val tempStr = coord.replace("\\s+".toRegex(), "")
+        val pattern = GeneralData.patternGEOREF
+        val matcher = pattern.matcher(tempStr)
+        var matchCount = 0
+        while (matcher.find()) {
+//            matchCount++
+//            System.out.printf(
+//                "Match count: %s, Group Zero Text: '%s'%n", matchCount,
+//                matcher.group()
+//            )
+//            for (i in 1..matcher.groupCount()) {
+//                System.out.printf(
+//                    "Capture Group Number: %s, Captured Text: '%s'%n", i,
+//                    matcher.group(i)
+//                )
+//            }
+            var mLength = matcher.group(5).length
+            if (mLength % 2 == 0 && mLength <= 10 && mLength >= 2) {
+                println("OK")
+            }
+        }
+        println("georef2DEG - RETURN $retVal")
+        return retVal
+
+    }
+
+    fun georefLon15(lonDeg: Int, lonHem: String): String {
         println("getLon15 lonDeg $lonDeg lonHem $lonHem")
         var tempDeg = lonDeg
         if (lonHem == "E") {
@@ -22,12 +50,12 @@ class Georef {
         } else {
             tempDeg = 180 - tempDeg
         }
-        val retVal = get15ID(tempDeg)
+        val retVal = georef15ID(tempDeg)
         println("getLon15 RETURN $retVal")
         return retVal
     }
 
-    fun getLat15(latDeg: Int, latHem: String): String {
+    fun georefLat15(latDeg: Int, latHem: String): String {
         println("getLat15 latDeg $latDeg latHem $latHem")
         var tempDeg = latDeg
         if (latHem == "N") {
@@ -35,37 +63,37 @@ class Georef {
         } else {
             tempDeg = 90 - tempDeg
         }
-        val retVal = get15ID(tempDeg)
+        val retVal = georef15ID(tempDeg)
         println("getLat15 RETURN $retVal")
         return retVal
     }
 
-    fun getLon1515(lonDeg: Int, lonHem: String): String {
+    fun georefLon1515(lonDeg: Int, lonHem: String): String {
         println("getLon1515 lonDeg $lonDeg lonHem $lonHem")
         var tempVal = lonDeg - ((lonDeg.toDouble() / 15).toInt() * 15).toInt()
         if (lonHem == "W") {
             tempVal = 14 - tempVal
         }
         println("getLon1515 tempVal $tempVal")
-        val retVal = get1515ID(tempVal)
+        val retVal = georef1515ID(tempVal)
         println("getLon1515 RETURN $retVal")
         return retVal
     }
 
-    fun getLat1515(latDeg: Int, latHem: String): String {
+    fun georefLat1515(latDeg: Int, latHem: String): String {
         println("getLat1515 latDeg $latDeg latHem $latHem")
         var tempVal = latDeg - ((latDeg.toDouble() / 15).toInt() * 15).toInt()
         if (latHem == "S") {
             tempVal = 14 - tempVal
         }
         println("getLat1515 tempVal $tempVal")
-        val retVal = get1515ID(tempVal)
+        val retVal = georef1515ID(tempVal)
         println("getLat1515 RETURN $retVal")
         return retVal
     }
 
 
-    fun get151560(min: Int, sec: Double, hem: String): String {
+    fun georef151560(min: Int, sec: Double, hem: String): String {
         var temp = min + (sec / 60)
         if (hem == "W" || hem == "S") {
             temp = 60.0 - temp
@@ -74,7 +102,7 @@ class Georef {
         return retVal
     }
 
-    fun get15ID(deg: Int): String {
+    fun georef15ID(deg: Int): String {
         if (0 <= deg && deg < 15) {
             return "A"
         }
@@ -151,7 +179,7 @@ class Georef {
         return ""
     }
 
-    fun get1515ID(deg: Int): String {
+    fun georef1515ID(deg: Int): String {
         val letters: MutableMap<Int, String> = HashMap()
         letters[0] = "A"
         letters[1] = "B"
