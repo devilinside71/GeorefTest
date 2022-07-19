@@ -56,7 +56,7 @@ class Georef {
                     lonMulti = 1
                 }
                 println("georef2DMS lon1Val mod $lon1Val")
-                lon1Val = lon1Val + lonMulti * lon2Val
+                lon1Val += lonMulti * lon2Val
                 println("georef2DMS lon1Val mod2 $lon1Val")
                 if (lat1Val < 90) {
                     lat1Val = 90 - lat1Val
@@ -66,7 +66,7 @@ class Georef {
                     latMulti = 1
                 }
                 println("georef2DMS lat1Val mod $lat1Val")
-                lat1Val = lat1Val + latMulti * lat2Val
+                lat1Val += latMulti * lat2Val
                 println("georef2DMS lat1Val mod2 $lat1Val")
 
                 if (mLength == 4) {
@@ -76,8 +76,8 @@ class Georef {
                     println("georef2DMS nums $lon3 $lat3")
                     var lon4 = lon1Val.toDouble() + lonMulti * (lon3.toDouble() / 60.0)
                     var lat4 = lat1Val.toDouble() + latMulti * (lat3.toDouble() / 60.0)
-                    lon4 = lonMulti * lon4
-                    lat4 = latMulti * lat4
+                    lon4 *= lonMulti
+                    lat4 *= latMulti
                     println("georef2DMS nums2 $lon4 $lat4")
                     retVal.Latitude = lat4
                     retVal.Longitude = lon4
@@ -145,7 +145,7 @@ class Georef {
         println("getLon15 lonDeg $lonDeg lonHem $lonHem")
         var tempDeg = lonDeg
         if (lonHem == "E") {
-            tempDeg = 180 + tempDeg
+            tempDeg += 180
         } else {
             tempDeg = 180 - tempDeg
         }
@@ -158,7 +158,7 @@ class Georef {
         println("getLat15 latDeg $latDeg latHem $latHem")
         var tempDeg = latDeg
         if (latHem == "N") {
-            tempDeg = tempDeg + 90
+            tempDeg += 90
         } else {
             tempDeg = 90 - tempDeg
         }
