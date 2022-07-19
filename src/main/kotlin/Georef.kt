@@ -5,11 +5,13 @@
 class Georef {
 
     fun getGeoref(coord: DMSData): String {
-        println("getGeoref coord $coord" )
+        println("getGeoref coord $coord")
         return getLon15(coord.LonDeg, coord.LonHemisphere) +
                 getLat15(coord.LatDeg, coord.LatHemisphere) +
                 getLon1515(coord.LonDeg, coord.LonHemisphere) +
-                getLat1515(coord.LatDeg, coord.LatHemisphere)
+                getLat1515(coord.LatDeg, coord.LatHemisphere) +
+                get151560(coord.LonMin, coord.LonSec, coord.LonHemisphere) +
+                get151560(coord.LatMin, coord.LatSec, coord.LatHemisphere)
     }
 
     fun getLon15(lonDeg: Int, lonHem: String): String {
@@ -30,6 +32,8 @@ class Georef {
         var tempDeg = latDeg
         if (latHem == "N") {
             tempDeg = tempDeg + 90
+        } else {
+            tempDeg = 90 - tempDeg
         }
         val retVal = get15ID(tempDeg)
         println("getLat15 RETURN $retVal")
@@ -57,6 +61,33 @@ class Georef {
         println("getLat1515 tempVal $tempVal")
         val retVal = get1515ID(tempVal)
         println("getLat1515 RETURN $retVal")
+        return retVal
+    }
+
+
+    fun get151560(min: Int, sec: Double, hem: String): String {
+        var temp = min + (sec / 60)
+        if (hem == "W" || hem == "S") {
+            temp = 60.0 - temp
+        }
+        var retVal = temp.toInt().toString().padStart(2, '0').take(2)
+        return retVal
+    }
+    fun getLon151560(lonMin: Int, lonSec: Double, lonHem: String): String {
+        var temp = lonMin + (lonSec / 60)
+        if (lonHem == "W") {
+            temp = 60.0 - temp
+        }
+        var retVal = temp.toInt().toString().padStart(2, '0').take(2)
+        return retVal
+    }
+
+    fun getLat151560(latMin: Int, latSec: Double, lonHem: String): String {
+        var temp = latMin + (latSec / 60)
+        if (lonHem == "W") {
+            temp = 60.0 - temp
+        }
+        var retVal = temp.toInt().toString().padStart(2, '0').take(2)
         return retVal
     }
 
