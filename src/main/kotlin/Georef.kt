@@ -33,7 +33,7 @@ class Georef {
 //                )
 //            }
             var mLength = matcher.group(5).length
-            if (mLength % 2 == 0 && mLength <= 10 && mLength >= 2) {
+            if (mLength % 2 == 0) {
                 println("OK")
             }
         }
