@@ -68,20 +68,18 @@ class Georef {
                 println("georef2DMS lat1Val mod $lat1Val")
                 lat1Val += latMulti * lat2Val
                 println("georef2DMS lat1Val mod2 $lat1Val")
+                var nums = matcher.group(5).take(4)
+                var lon3 = nums.substring(0, 2)
+                var lat3 = nums.substring(2, 4)
+                println("georef2DMS nums $lon3 $lat3")
+                var lon4 = lon1Val.toDouble() + lonMulti * (lon3.toDouble() / 60.0)
+                var lat4 = lat1Val.toDouble() + latMulti * (lat3.toDouble() / 60.0)
+                lon4 *= lonMulti
+                lat4 *= latMulti
+                println("georef2DMS nums2 $lon4 $lat4")
+                retVal.Latitude = lat4
+                retVal.Longitude = lon4
 
-                if (mLength == 4) {
-                    var nums = matcher.group(5)
-                    var lon3 = nums.substring(0, 2)
-                    var lat3 = nums.substring(2, 4)
-                    println("georef2DMS nums $lon3 $lat3")
-                    var lon4 = lon1Val.toDouble() + lonMulti * (lon3.toDouble() / 60.0)
-                    var lat4 = lat1Val.toDouble() + latMulti * (lat3.toDouble() / 60.0)
-                    lon4 *= lonMulti
-                    lat4 *= latMulti
-                    println("georef2DMS nums2 $lon4 $lat4")
-                    retVal.Latitude = lat4
-                    retVal.Longitude = lon4
-                }
             }
         }
         println("georef2DMS - RETURN $retVal")
