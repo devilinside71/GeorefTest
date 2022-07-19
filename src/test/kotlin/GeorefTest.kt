@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Assertions.*
  */
 internal class GeorefTest {
 
+    val geoRef=Georef()
+
     @Test
     fun getLon15() {
+
     }
 
     @Test

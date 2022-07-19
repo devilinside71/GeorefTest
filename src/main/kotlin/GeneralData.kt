@@ -15,8 +15,6 @@ class GeneralData {
         const val emptyMGRS = ""
         val emptyUTMData = UTMData(0, "", 0, 0)
         val emptyDMSData = DMSData(0, 0, 0.0, "X", 0, 0, 0.0, "X")
-        val emptySingleDMSNoHemisphereData = SingleDMSNoHemisphereData(0, 0, 0.0)
-        val emptySingleDMSData = SingleDMSData(0, 0, 0.0, "")
         val emptyMGRSData = MGRSData(0, "X", "X", "X", 0, 0, 0)
         val naStr = "N/A"
 

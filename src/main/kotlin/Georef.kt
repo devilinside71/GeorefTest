@@ -4,20 +4,8 @@
  */
 class Georef {
 
-    val c=CoordConv()
-
-    fun runTests(){
-        val test01=GeneralData.emptyDMSData
-        val test02=GeneralData.emptyDMSData
-        val test03=GeneralData.emptyDMSData
-        val test04=GeneralData.emptyDMSData
-        val test05=GeneralData.emptyDMSData
-        val test06=GeneralData.emptyDMSData
-        val test07=GeneralData.emptyDMSData
-        
-    }
-
     fun getGeoref(coord: DMSData): String {
+        println("getGeoref coord $coord" )
         return getLon15(coord.LonDeg, coord.LonHemisphere) +
                 getLat15(coord.LatDeg, coord.LatHemisphere) +
                 getLon1515(coord.LonDeg, coord.LonHemisphere) +
@@ -66,6 +54,7 @@ class Georef {
         if (latHem == "S") {
             tempVal = 14 - tempVal
         }
+        println("getLat1515 tempVal $tempVal")
         val retVal = get1515ID(tempVal)
         println("getLat1515 RETURN $retVal")
         return retVal
