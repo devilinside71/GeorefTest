@@ -9,7 +9,7 @@ class Gars {
     fun deg2GARS(coord: DEGData): String {
         var retVal = ""
         var lon1 = 180.0 + coord.Longitude
-        var lon2 = ceil(lon1 * 2).toInt().toString()
+        var lon2 = ceil(lon1 * 2).toInt().toString().padStart(3,'0').take(3)
         println("deg2GARS lon2 $lon2")
         retVal += lon2
         return retVal
