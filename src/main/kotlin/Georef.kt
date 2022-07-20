@@ -1,17 +1,21 @@
+import kotlin.math.abs
+
 /**
  * Created on 2022-07-19
  * @author Laszlo TAMAS9
  */
 class Georef {
 
-    fun dms2GEOREF(coord: DMSData): String {
-        println("getGeoref coord $coord")
-        return georefLon15(coord.LonDeg, coord.LonHemisphere) +
-                georefLat15(coord.LatDeg, coord.LatHemisphere) +
-                georefLon1515(coord.LonDeg, coord.LonHemisphere) +
-                georefLat1515(coord.LatDeg, coord.LatHemisphere) +
-                georef151560(coord.LonMin, coord.LonSec, coord.LonHemisphere) +
-                georef151560(coord.LatMin, coord.LatSec, coord.LatHemisphere)
+    fun deg2GEOREF(coord: DEGData): String {
+        println("deg2GEOREF coord $coord")
+        var retVal = georefLon15(coord.Longitude) +
+                georefLat15(coord.Latitude) +
+                georefLon1515(coord.Longitude) +
+                georefLat1515(coord.Latitude) +
+                georef151560(coord.Longitude) +
+                georef151560(coord.Latitude)
+        println("deg2GEOREF RETURN $retVal")
+        return retVal
     }
 
     fun georef2DEG(coord: String): DEGData {
@@ -87,62 +91,10 @@ class Georef {
 
     }
 
-    fun georef1515IDVal(coord: String): Int {
-        val letters: MutableMap<String, Int> = HashMap()
-        letters["A"] = 0
-        letters["B"] = 1
-        letters["C"] = 2
-        letters["D"] = 3
-        letters["E"] = 4
-        letters["F"] = 5
-        letters["G"] = 6
-        letters["H"] = 7
-        letters["J"] = 8
-        letters["K"] = 9
-        letters["L"] = 10
-        letters["M"] = 11
-        letters["N"] = 12
-        letters["P"] = 13
-        letters["Q"] = 14
-        val retVal = letters[coord]!!
-        return retVal
-    }
-
-    fun georef15IDVal(coord: String): Int {
-
-        val letters: MutableMap<String, Int> = HashMap()
-        letters["A"] = 0
-        letters["B"] = 15
-        letters["C"] = 30
-        letters["D"] = 45
-        letters["E"] = 60
-        letters["F"] = 75
-        letters["G"] = 90
-        letters["H"] = 105
-        letters["J"] = 120
-        letters["K"] = 135
-        letters["L"] = 150
-        letters["M"] = 165
-        letters["N"] = 180
-        letters["P"] = 195
-        letters["Q"] = 210
-        letters["R"] = 225
-        letters["S"] = 240
-        letters["T"] = 255
-        letters["U"] = 270
-        letters["V"] = 285
-        letters["W"] = 300
-        letters["X"] = 315
-        letters["Y"] = 330
-        letters["Z"] = 345
-        val retVal = letters[coord]!!
-        return retVal
-    }
-
-    fun georefLon15(lonDeg: Int, lonHem: String): String {
-        println("getLon15 lonDeg $lonDeg lonHem $lonHem")
-        var tempDeg = lonDeg
-        if (lonHem == "E") {
+    fun georefLon15(longitude: Double): String {
+        println("getLon15 lonDeg $longitude")
+        var tempDeg = abs(longitude.toInt())
+        if (longitude >= 0) {
             tempDeg += 180
         } else {
             tempDeg = 180 - tempDeg
@@ -152,10 +104,10 @@ class Georef {
         return retVal
     }
 
-    fun georefLat15(latDeg: Int, latHem: String): String {
-        println("getLat15 latDeg $latDeg latHem $latHem")
-        var tempDeg = latDeg
-        if (latHem == "N") {
+    fun georefLat15(latitude: Double): String {
+        println("getLat15 latDeg $latitude")
+        var tempDeg = abs(latitude.toInt())
+        if (latitude >= 0) {
             tempDeg += 90
         } else {
             tempDeg = 90 - tempDeg
@@ -165,10 +117,11 @@ class Georef {
         return retVal
     }
 
-    fun georefLon1515(lonDeg: Int, lonHem: String): String {
-        println("getLon1515 lonDeg $lonDeg lonHem $lonHem")
-        var tempVal = lonDeg - ((lonDeg.toDouble() / 15).toInt() * 15).toInt()
-        if (lonHem == "W") {
+    fun georefLon1515(longitude: Double): String {
+        println("getLon1515 lonDeg $longitude")
+        var tempDeg = abs(longitude.toInt())
+        var tempVal = tempDeg - ((tempDeg.toDouble() / 15).toInt() * 15).toInt()
+        if (longitude < 0) {
             tempVal = 14 - tempVal
         }
         println("getLon1515 tempVal $tempVal")
@@ -177,10 +130,11 @@ class Georef {
         return retVal
     }
 
-    fun georefLat1515(latDeg: Int, latHem: String): String {
-        println("getLat1515 latDeg $latDeg latHem $latHem")
-        var tempVal = latDeg - ((latDeg.toDouble() / 15).toInt() * 15).toInt()
-        if (latHem == "S") {
+    fun georefLat1515(latitude: Double): String {
+        println("getLat1515 latDeg $latitude")
+        var tempDeg = abs(latitude.toInt())
+        var tempVal = tempDeg - ((tempDeg.toDouble() / 15).toInt() * 15).toInt()
+        if (latitude < 0) {
             tempVal = 14 - tempVal
         }
         println("getLat1515 tempVal $tempVal")
@@ -189,10 +143,9 @@ class Georef {
         return retVal
     }
 
-
-    fun georef151560(min: Int, sec: Double, hem: String): String {
-        var temp = min + (sec / 60)
-        if (hem == "W" || hem == "S") {
+    fun georef151560(coord: Double): String {
+        var temp = abs(coord - coord.toInt()) * 60
+        if (coord < 0) {
             temp = 60.0 - temp
         }
         var retVal = temp.toInt().toString().padStart(2, '0').take(2)
@@ -296,4 +249,57 @@ class Georef {
         val retVal = letters[deg]!!
         return retVal
     }
+
+    fun georef1515IDVal(coord: String): Int {
+        val letters: MutableMap<String, Int> = HashMap()
+        letters["A"] = 0
+        letters["B"] = 1
+        letters["C"] = 2
+        letters["D"] = 3
+        letters["E"] = 4
+        letters["F"] = 5
+        letters["G"] = 6
+        letters["H"] = 7
+        letters["J"] = 8
+        letters["K"] = 9
+        letters["L"] = 10
+        letters["M"] = 11
+        letters["N"] = 12
+        letters["P"] = 13
+        letters["Q"] = 14
+        val retVal = letters[coord]!!
+        return retVal
+    }
+
+    fun georef15IDVal(coord: String): Int {
+
+        val letters: MutableMap<String, Int> = HashMap()
+        letters["A"] = 0
+        letters["B"] = 15
+        letters["C"] = 30
+        letters["D"] = 45
+        letters["E"] = 60
+        letters["F"] = 75
+        letters["G"] = 90
+        letters["H"] = 105
+        letters["J"] = 120
+        letters["K"] = 135
+        letters["L"] = 150
+        letters["M"] = 165
+        letters["N"] = 180
+        letters["P"] = 195
+        letters["Q"] = 210
+        letters["R"] = 225
+        letters["S"] = 240
+        letters["T"] = 255
+        letters["U"] = 270
+        letters["V"] = 285
+        letters["W"] = 300
+        letters["X"] = 315
+        letters["Y"] = 330
+        letters["Z"] = 345
+        val retVal = letters[coord]!!
+        return retVal
+    }
+
 }
