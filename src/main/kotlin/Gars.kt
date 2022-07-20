@@ -13,7 +13,8 @@ class Gars {
         var lon2 = ceil(lon1 * 2).toInt().toString().padStart(3, '0').take(3)
 
         println("deg2GARS lon2 $lon2")
-        retVal += lon2 + garsLatBand(coord.Latitude) + garsQudrant(coord).toString()
+        retVal += lon2 + garsLatBand(coord.Latitude) +
+                garsQudrant(coord).toString() + garsNinth(coord).toString()
         return retVal
     }
 
@@ -47,25 +48,31 @@ class Gars {
         val quadLat = ((tempLatMin - tempLatMin.toInt()) * 2).toInt()
         val quadLon = ((tempLonMin - tempLonMin.toInt()) * 2).toInt()
         println("garsQudrant quadLat $quadLat quadLon $quadLon")
-        if (quadLat == 0 && quadLon == 0) {
-            retVal = 3
-        }
-        if (quadLat == 0 && quadLon == 1) {
-            retVal = 4
-        }
-        if (quadLat == 1 && quadLon == 0) {
-            retVal = 1
-        }
-        if (quadLat == 1 && quadLon == 1) {
-            retVal = 2
-        }
+        val valArr: Array<IntArray> = arrayOf(
+            intArrayOf(3, 4),
+            intArrayOf(1, 2)
+        )
+        retVal = valArr[quadLat][quadLon]
         println("garsQudrant RETURN $retVal")
         return retVal
     }
-    fun garsNinth(coord: DEGData):Int{
-        var retVal=0
 
-
+    fun garsNinth(coord: DEGData): Int {
+        var retVal = 0
+        var tempLatMin = (90.0 + coord.Latitude) * 2
+        var tempLonMin = (180.0 + coord.Longitude) * 2
+        val valArr: Array<IntArray> = arrayOf(
+            intArrayOf(7, 8, 9, 7, 8, 9),
+            intArrayOf(4, 5, 6, 4, 5, 6),
+            intArrayOf(1, 2, 3, 1, 2, 3),
+            intArrayOf(7, 8, 9, 7, 8, 9),
+            intArrayOf(4, 5, 6, 4, 5, 6),
+            intArrayOf(1, 2, 3, 1, 2, 3),
+        )
+        val quadLat = ((tempLatMin - tempLatMin.toInt()) * 6).toInt()
+        val quadLon = ((tempLonMin - tempLonMin.toInt()) * 6).toInt()
+        retVal = valArr[quadLat][quadLon]
+        println("garsNinth RETURN $retVal")
         return retVal
     }
 }
