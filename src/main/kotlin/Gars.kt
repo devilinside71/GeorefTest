@@ -18,12 +18,13 @@ class Gars {
         return retVal
     }
 
-    fun gars2DEG(coord:String):DEGData{
-        var retVal=DEGData(0.0,0.0)
+    fun gars2DEG(coord: String): DEGData {
+        var retVal = DEGData(0.0, 0.0)
 
         return retVal
     }
-    fun garsLatBand(lat: Double): String {
+
+    private fun garsLatBand(lat: Double): String {
         println("garsLatBand lat $lat")
         var retVal = ""
         var tempLatMin = (90.0 + lat) * 2
@@ -44,7 +45,7 @@ class Gars {
         return retVal
     }
 
-    fun garsQudrant(coord: DEGData): Int {
+    private fun garsQudrant(coord: DEGData): Int {
         println("garsQudrant coord $coord")
         var retVal = 0
         var tempLatMin = (90.0 + coord.Latitude) * 2
@@ -62,7 +63,7 @@ class Gars {
         return retVal
     }
 
-    fun garsNinth(coord: DEGData): Int {
+    private fun garsNinth(coord: DEGData): Int {
         var retVal = 0
         var tempLatMin = (90.0 + coord.Latitude) * 2
         var tempLonMin = (180.0 + coord.Longitude) * 2
