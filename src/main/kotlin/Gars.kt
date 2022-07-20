@@ -18,6 +18,11 @@ class Gars {
         return retVal
     }
 
+    fun gars2DEG(coord:String):DEGData{
+        var retVal=DEGData(0.0,0.0)
+
+        return retVal
+    }
     fun garsLatBand(lat: Double): String {
         println("garsLatBand lat $lat")
         var retVal = ""

@@ -45,5 +45,9 @@ fun main(args: Array<String>) {
     println("GARS02 ${gars.deg2GARS(test11)}")
     println("GARS03 ${gars.deg2GARS(test12)}")
 
+    println("gars2DEG01 355JX31 ${gars.gars2DEG("355JX31")}")
+    println("gars2DEG02 267FN25 ${gars.gars2DEG("267FN25")}")
+    println("gars2DEG03 499LK47 ${gars.gars2DEG("499LK47")}")
+
 
 }
