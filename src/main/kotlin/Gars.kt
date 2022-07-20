@@ -19,8 +19,70 @@ class Gars {
     }
 
     fun gars2DEG(coord: String): DEGData {
+        println("gars2DEG coord $coord")
         var retVal = DEGData(0.0, 0.0)
+        val tempStr = coord.replace("\\s+".toRegex(), "")
+        val pattern = GeneralData.patternGARS
+        val matcher = pattern.matcher(tempStr)
+        var matchCount = 0
+        while (matcher.find()) {
+//            matchCount++
+//            System.out.printf(
+//                "Match count: %s, Group Zero Text: '%s'%n", matchCount,
+//                matcher.group()
+//            )
+//            for (i in 1..matcher.groupCount()) {
+//                System.out.printf(
+//                    "Capture Group Number: %s, Captured Text: '%s'%n", i,
+//                    matcher.group(i)
+//                )
+//            }
+            var lonMatch = matcher.group(1).toDouble()
+            var lon = lonMatch / 2 - 180.0
+            println("gars2DEG lon $lon")
+            val letters01 = "ABCDEFGHJKLMNPQ"
+            val letters02 = "ABCDEFGHJKLMNPQRSTUVWXYZ"
+            val where01 = letters01.indexOf(matcher.group(2))
+            println("gars2DEG where01 $where01")
+            val where02 = letters02.indexOf(matcher.group(3))
+            println("gars2DEG where02 $where02")
+            var lat = (where01 * 24.0 + where02) / 2.0 - 90.0
+            val valArr: Array<IntArray> = arrayOf(
+                intArrayOf(0, 0),
+                intArrayOf(1, 0),
+                intArrayOf(1, 1),
+                intArrayOf(0, 0),
+                intArrayOf(0, 1)
+            )
+            var quadIndex = matcher.group(4).toInt()
+            println("gars2DEG quadIndex $quadIndex")
+            var tempArr = valArr[quadIndex]
+            println("gars2DEG tempArr $tempArr")
+            val extLat = tempArr[0]
+            val extLon = tempArr[1]
+            println("gars2DEG extLat $extLat extLon $extLon")
+            val valArr2: Array<IntArray> = arrayOf(
+                intArrayOf(0, 0),
+                intArrayOf(2, 0),
+                intArrayOf(2, 1),
+                intArrayOf(2, 2),
 
+                intArrayOf(1, 0),
+                intArrayOf(1, 1),
+                intArrayOf(1, 2),
+
+                intArrayOf(0, 0),
+                intArrayOf(0, 1),
+                intArrayOf(0, 2),
+            )
+            var ninthIndex = matcher.group(5).toInt()
+            var tempArr2 = valArr2[ninthIndex]
+            val extLat2 = tempArr2[0]
+            val extLon2 = tempArr2[1]
+            println("gars2DEG extLat2 $extLat2 extLon2 $extLon2")
+            retVal.Latitude = lat + extLat * 0.25 + extLat2 * 0.083333
+            retVal.Longitude = lon + extLon * 0.25 + extLon2 * 0.083333
+        }
         return retVal
     }
 
