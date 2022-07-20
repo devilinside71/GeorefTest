@@ -91,7 +91,7 @@ class Georef {
 
     }
 
-    fun georefLon15(longitude: Double): String {
+    private fun georefLon15(longitude: Double): String {
         println("getLon15 lonDeg $longitude")
         var tempDeg = abs(longitude.toInt())
         if (longitude >= 0) {
@@ -104,7 +104,7 @@ class Georef {
         return retVal
     }
 
-    fun georefLat15(latitude: Double): String {
+    private fun georefLat15(latitude: Double): String {
         println("getLat15 latDeg $latitude")
         var tempDeg = abs(latitude.toInt())
         if (latitude >= 0) {
@@ -117,7 +117,7 @@ class Georef {
         return retVal
     }
 
-    fun georefLon1515(longitude: Double): String {
+    private fun georefLon1515(longitude: Double): String {
         println("getLon1515 lonDeg $longitude")
         var tempDeg = abs(longitude.toInt())
         var tempVal = tempDeg - ((tempDeg.toDouble() / 15).toInt() * 15).toInt()
@@ -130,7 +130,7 @@ class Georef {
         return retVal
     }
 
-    fun georefLat1515(latitude: Double): String {
+    private fun georefLat1515(latitude: Double): String {
         println("getLat1515 latDeg $latitude")
         var tempDeg = abs(latitude.toInt())
         var tempVal = tempDeg - ((tempDeg.toDouble() / 15).toInt() * 15).toInt()
@@ -143,7 +143,7 @@ class Georef {
         return retVal
     }
 
-    fun georef151560(coord: Double): String {
+    private fun georef151560(coord: Double): String {
         var temp = abs(coord - coord.toInt()) * 60
         if (coord < 0) {
             temp = 60.0 - temp
@@ -152,20 +152,20 @@ class Georef {
         return retVal
     }
 
-    fun georef15ID(deg: Int): String {
+    private fun georef15ID(deg: Int): String {
         val letters01 = "ABCDEFGHJKLMNPQRSTUVWXYZ"
         val char01 = letters01.toCharArray()[deg / 15]
         return char01.toString()
     }
 
-    fun georef1515ID(index: Int): String {
+    private fun georef1515ID(index: Int): String {
         val letters01 = "ABCDEFGHJKLMNPQ"
         val char01 = letters01.toCharArray()[index]
         val retVal = char01.toString()
         return retVal
     }
 
-    fun georef1515IDVal(coord: String): Int {
+    private fun georef1515IDVal(coord: String): Int {
         val letters: MutableMap<String, Int> = HashMap()
         letters["A"] = 0
         letters["B"] = 1
@@ -186,7 +186,7 @@ class Georef {
         return retVal
     }
 
-    fun georef15IDVal(coord: String): Int {
+    private fun georef15IDVal(coord: String): Int {
 
         val letters: MutableMap<String, Int> = HashMap()
         letters["A"] = 0
